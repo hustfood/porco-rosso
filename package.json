@@ -3,12 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "onsenui": "^2.10.6",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
+    "react-onsenui": "^1.11.1",
     "react-scripts": "2.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node dev-server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -21,5 +23,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.5"
+  }
 }
