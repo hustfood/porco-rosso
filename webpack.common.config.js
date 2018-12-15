@@ -3,7 +3,7 @@ module.exports = {
         './src/index.js',
     ],
     output: {
-        filename: 'main.js',
+        filename: '[name].bundle.js',
     },
     module: {
         rules:
@@ -18,8 +18,8 @@ module.exports = {
                     use: {
                         loader: 'babel-loader',
                         query: {
-                            presets: ['react', 'es2015'],
-                            plugins: []
+                            presets: ['@babel/preset-react', '@babel/preset-env'],
+                            plugins: ['@babel/plugin-proposal-class-properties']
                         }
                     },
                 },

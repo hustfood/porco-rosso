@@ -8,7 +8,7 @@ import './App.css';
 
 class App extends Component {
     handleClick = () => {
-        ons.notification.alert('Hello  world!');
+        ons.notification.alert('Hello food!');
     };
     render() {
         return (
