@@ -19,7 +19,9 @@ module.exports = {
                         loader: 'babel-loader',
                         query: {
                             presets: ['@babel/preset-react', '@babel/preset-env'],
-                            plugins: ['@babel/plugin-proposal-class-properties']
+                            plugins: ['@babel/plugin-proposal-class-properties',
+                                ["import", { "libraryName": "antd-mobile", "style": "css" }]
+                            ]
                         }
                     },
                 },
