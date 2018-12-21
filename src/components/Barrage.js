@@ -2,17 +2,21 @@ import React, { Component } from 'react';
 import { List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
+import socket from '../socketio';
+
 class BarrageComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {};
     }
-    componentDidMount() {
-    }
     submit = () => {
         this.props.form.validateFields((error, value) => {
-            console.log(value);
+            socket.emit('send barrage', value, (data) => {
+                if (data === 'ok') {
+                    this.props.form.setFieldsValue({say:''});
+                }
+            })
         });
     };
     render() {
@@ -21,11 +25,11 @@ class BarrageComponent extends Component {
             <div>
                 <div className="flex-container">
                     <div className="sub-title">弹幕</div>
-                    <Flex style={{ marginTop: '50%' }}>
+                    <Flex>
                         <Flex.Item>
                             <List renderHeader={()=>'请输入弹幕内容：'}>
                                 <TextareaItem
-                                    {...getFieldProps('count')}
+                                    {...getFieldProps('say')}
                                     rows={2}
                                     count={20}
                                 />
