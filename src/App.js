@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import randomColor from 'randomcolor';
-import posed, {PoseGroup} from 'react-pose';
+import posed from 'react-pose';
 import { Emoji } from 'emoji-mart';
 import TabsComponent from './components/Tabs';
 
@@ -39,11 +39,15 @@ function getItemSize(str) {
 }
 
 const Box = posed.div({
-    exit: {
+    enter: {
         x: (props) => props.cw,
         y: (props) => props.h,
+        transition: {
+            duration: 5000,
+            ease: 'linear'
+        }
     },
-    enter: {
+    exit: {
         x: (props) => (0-props.w),
         transition: {
             duration: 5000,
@@ -51,6 +55,49 @@ const Box = posed.div({
         }
     }
 });
+
+class PoseBarrage extends React.Component {
+  state = { isVisible: 'enter' };
+
+  componentDidMount() {
+      this.setState({ isVisible: 'exit'});
+  }
+
+  render() {
+    return (
+        <Box pose={this.state.isVisible} w={this.props.w} cw={this.props.cw} h={this.props.h} style={{
+            color: this.props.color,
+            position: 'fixed',
+            zIndex: 999,
+            fontSize: '6vw',
+            fontWeight: 'bold',
+            WebkitTextStroke: '0.05vw #000000'
+        }}>
+            <EmojiDiv str={this.props.str} height={this.props.eh}/>
+        </Box>
+    );
+  }
+}
+
+const re_emoji=new RegExp(/\[[a-z|_|-]+\]/g);
+function replaceStr2Emoji(str, height){
+    let match=re_emoji.exec(str);
+    while(match){
+        let tmp = match[0];
+        let new_tmp = tmp.slice(1,tmp.length-1);
+        // str = str.replace(tmp,"<Emoji emoji='"+new_tmp+"' set='twitter' size={"+(Math.floor(height*0.65))+"} />");
+        str = str.replace(tmp, Emoji({html:true, set:'twitter', emoji: new_tmp, size: height*0.65}));
+        match=re_emoji.exec(str);
+    }
+    return str;
+}
+
+const EmojiDiv = ({str, height}) => {
+    return (
+        <div dangerouslySetInnerHTML={{ __html: replaceStr2Emoji(str, height) }}>
+        </div>
+    )
+};
 
 class App extends Component {
     constructor(props) {
@@ -62,40 +109,38 @@ class App extends Component {
     }
     componentDidMount() {
         socket.on('sync barrage', param => {
-            this.handleAdd(param);
+            this.handleAdd(param).then((_del) => {
+                this.handleRemove(_del);
+            });
         });
     }
     handleAdd = (str) => {
-        const {ret_width, ret_height} = getItemSize(str);
-        let all_channel = Math.floor(screen.height / ret_height * 0.8);
-        let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
-        let pose_height = screen.height * 0.05 + ret_channel * ret_height;
-        const newItems = this.state.barrageRet.concat([[str,ret_width,pose_height,ret_height]]);
-        this.setState({barrageRet: newItems});
+        return new Promise((resolve, reject) => {
+            const {ret_width, ret_height} = getItemSize(str);
+            let all_channel = Math.floor(screen.height / ret_height * 0.8);
+            let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
+            let pose_height = screen.height * 0.05 + ret_channel * ret_height;
+            let now_timestamp = Date.now();
+            const new_ret = this.state.barrageRet.concat([[str,ret_width,pose_height,ret_height, randomColor(), now_timestamp]]);
+            this.setState({barrageRet: new_ret});
+            setTimeout(function () {
+                resolve(now_timestamp);
+            }, 6000)
+        });
     };
-    handleRemove = (i) => {
+    handleRemove = (_tag) => {
         let newItems = this.state.barrageRet.slice();
-        newItems.splice(i, 1);
+        let delIndex = newItems.findIndex(x => x[5] === _tag);
+        newItems.splice(delIndex, 1);
         this.setState({barrageRet: newItems});
     };
     render() {
-        const items = this.state.barrageRet.map((item, i) => {
-            return (
-                <Box key={i} pose={'enter'} w={item[1]} cw={screen.width} h={item[2]} style={{
-                    color: randomColor(),
-                    position: 'fixed',
-                    zIndex: 999,
-                    fontSize: '6vw',
-                    fontWeight: 'bold',
-                    WebkitTextStroke: '0.05vw #000000'
-                }}><Emoji emoji={{ id: 'santa', skin: 3 }} size={item[3]*0.7} />{item[0]}</Box>
-            )
-        });
+        const barrageItems = this.state.barrageRet.map((b, i) => (
+            <PoseBarrage key={b[5]} str={b[0]} w={b[1]} cw={screen.width} h={b[2]} eh={b[3]} color={b[4]}/>
+        ));
         return (
-            <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }} id='fff'>
-                <PoseGroup>
-                    {items}
-                </PoseGroup>
+            <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+                {barrageItems}
                 <TabsComponent/>
             </div>
         );

@@ -38,10 +38,7 @@ class BarrageComponent extends Component {
     };
     emojiSelect = (emoji) => {
         let old_value = this.props.form.getFieldValue('say');
-        this.props.form.setFieldsValue({'say':(old_value ? old_value:'') + `[${emoji.colons}]`});
-        this.setState({
-            emote: false
-        })
+        this.props.form.setFieldsValue({'say':(old_value ? old_value:'') + `[${emoji.id}]`});
     };
     render() {
         const { getFieldProps} = this.props.form;
@@ -55,7 +52,7 @@ class BarrageComponent extends Component {
                                 <TextareaItem
                                     {...getFieldProps('say')}
                                     rows={2}
-                                    count={20}
+                                    count={50}
                                 />
                             </List>
                             <WhiteSpace/>
