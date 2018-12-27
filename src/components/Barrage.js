@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
-import { List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
+import { Modal, List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
+import { Picker } from 'emoji-mart';
 
 import socket from '../socketio';
+
+import 'emoji-mart/css/emoji-mart.css';
 
 class BarrageComponent extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
+        this.state = {
+            emote: false,
+        };
     }
     submit = () => {
         this.props.form.validateFields((error, value) => {
@@ -19,8 +24,27 @@ class BarrageComponent extends Component {
             })
         });
     };
+    showEmote = (e) => {
+        e.preventDefault();
+        this.setState({
+            emote: true
+        })
+    };
+    closeEmote = (e) => {
+        e.preventDefault();
+        this.setState({
+            emote: false
+        })
+    };
+    emojiSelect = (emoji) => {
+        let old_value = this.props.form.getFieldValue('say');
+        this.props.form.setFieldsValue({'say':(old_value ? old_value:'') + `[${emoji.colons}]`});
+        this.setState({
+            emote: false
+        })
+    };
     render() {
-        const { getFieldProps } = this.props.form;
+        const { getFieldProps} = this.props.form;
         return (
             <div>
                 <div className="flex-container">
@@ -35,10 +59,23 @@ class BarrageComponent extends Component {
                                 />
                             </List>
                             <WhiteSpace/>
-                            <Button type="primary" onClick={this.submit}>发送</Button>
                         </Flex.Item>
                     </Flex>
-                    <WhiteSpace size="lg"/>
+                    <WhiteSpace/>
+                    <Modal
+                        visible={this.state.emote}
+                        transparent
+                        maskClosable={true}
+                        onClose={this.closeEmote}
+                    >
+                        <div>
+                            <Picker set="twitter" showPreview={false} perLine={6} onSelect={this.emojiSelect}/>
+                        </div>
+                    </Modal>
+                    <Flex justify="end">
+                        <Button type="ghost" inline size="small" onClick={this.showEmote} style={{ marginRight: '10px' }}>表情</Button>
+                        <Button type="ghost" inline size="small" onClick={this.submit}>发送</Button>
+                    </Flex>
                 </div>
             </div>
         );

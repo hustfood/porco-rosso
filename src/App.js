@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import randomColor from 'randomcolor';
-
 import posed, {PoseGroup} from 'react-pose';
-
+import { Emoji } from 'emoji-mart';
 import TabsComponent from './components/Tabs';
 
 import socket from './socketio';
@@ -71,7 +70,7 @@ class App extends Component {
         let all_channel = Math.floor(screen.height / ret_height * 0.8);
         let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
         let pose_height = screen.height * 0.05 + ret_channel * ret_height;
-        const newItems = this.state.barrageRet.concat([[str,ret_width,pose_height]]);
+        const newItems = this.state.barrageRet.concat([[str,ret_width,pose_height,ret_height]]);
         this.setState({barrageRet: newItems});
     };
     handleRemove = (i) => {
@@ -89,7 +88,7 @@ class App extends Component {
                     fontSize: '6vw',
                     fontWeight: 'bold',
                     WebkitTextStroke: '0.05vw #000000'
-                }}>{item[0]}</Box>
+                }}><Emoji emoji={{ id: 'santa', skin: 3 }} size={item[3]*0.7} />{item[0]}</Box>
             )
         });
         return (
