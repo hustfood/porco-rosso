@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import { Modal, List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
+import { List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
 import { createForm } from 'rc-form';
-import { Picker } from 'emoji-mart';
-
+import { ChatFeed, Message } from 'react-chat-ui';
 import socket from '../socketio';
-
-import 'emoji-mart/css/emoji-mart.css';
 
 class BarrageComponent extends Component {
     constructor(props) {
+        console.log(props);
         super(props);
 
         this.state = {
             emote: false,
+            messages: [],
         };
     }
     submit = () => {
@@ -24,54 +23,47 @@ class BarrageComponent extends Component {
             })
         });
     };
-    showEmote = (e) => {
-        e.preventDefault();
-        this.setState({
-            emote: true
-        })
-    };
-    closeEmote = (e) => {
-        e.preventDefault();
-        this.setState({
-            emote: false
-        })
-    };
-    emojiSelect = (emoji) => {
-        let old_value = this.props.form.getFieldValue('say');
-        this.props.form.setFieldsValue({'say':(old_value ? old_value:'') + `[${emoji.id}]`});
-    };
+    componentDidMount() {
+        socket.on('sync barrage', param => {
+            const new_ret = this.state.messages.concat([new Message({ id: 0, message: param})]);
+            this.setState({messages: new_ret});
+        });
+    }
     render() {
         const { getFieldProps} = this.props.form;
         return (
             <div>
-                <div className="flex-container">
-                    <div className="sub-title">弹幕</div>
+                <div className="barrage-flex-container">
                     <Flex>
                         <Flex.Item>
-                            <List renderHeader={()=>'请输入弹幕内容：'}>
+                            <ChatFeed
+                                messages={this.state.messages} // Boolean: list of message objects
+                                isTyping={false} // Boolean: is the recipient typing
+                                hasInputField={false} // Boolean: use our input, or use your own
+                                showSenderName // show the name of the user who sent the message
+                                bubblesCentered={false} //Boolean should the bubbles be centered in the feed?
+                            />
+                        </Flex.Item>
+                    </Flex>
+                    <WhiteSpace/>
+                    <Flex>
+                        <Flex.Item>
+                            <List>
                                 <TextareaItem
                                     {...getFieldProps('say')}
-                                    rows={2}
-                                    count={50}
+                                    placeholder="支持emoji表情"
+                                    rows={3}
+                                    count={60}
                                 />
                             </List>
                             <WhiteSpace/>
                         </Flex.Item>
                     </Flex>
                     <WhiteSpace/>
-                    <Modal
-                        visible={this.state.emote}
-                        transparent
-                        maskClosable={true}
-                        onClose={this.closeEmote}
-                    >
-                        <div>
-                            <Picker set="twitter" showPreview={false} perLine={6} onSelect={this.emojiSelect}/>
-                        </div>
-                    </Modal>
-                    <Flex justify="end">
-                        <Button type="ghost" inline size="small" onClick={this.showEmote} style={{ marginRight: '10px' }}>表情</Button>
-                        <Button type="ghost" inline size="small" onClick={this.submit}>发送</Button>
+                    <Flex>
+                        <Flex.Item>
+                            <Button type="ghost" icon="check-circle-o" onClick={this.submit}>发送</Button>
+                        </Flex.Item>
                     </Flex>
                 </div>
             </div>

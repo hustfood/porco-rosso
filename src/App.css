@@ -1,3 +1,10 @@
+.barrage-flex-container {
+    position: absolute;
+    padding: 15px;
+    width: 100%;
+    bottom: 0;
+}
+
 .flex-container {
     margin: 0 15px;
 }

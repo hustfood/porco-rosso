@@ -16,7 +16,8 @@ class TabsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'tab_barrage',
+            selectedTab: 'tab_reward',
+            unReadBarrage: 3
         }
     }
     render() {
@@ -44,13 +45,11 @@ class TabsComponent extends Component {
                         />
                         }
                         selected={this.state.selectedTab === 'tab_reward'}
-                        badge={1}
                         onPress={() => {
                             this.setState({
                                 selectedTab: 'tab_reward'
                             })
                         }}
-                        data-seed="logId1"
                     >
                         <RewardComponent/>
                     </TabBar.Item>
@@ -70,13 +69,11 @@ class TabsComponent extends Component {
                         />
                         }
                         selected={this.state.selectedTab === 'tab_vote'}
-                        badge={'new'}
                         onPress={() => {
                             this.setState({
                                 selectedTab: 'tab_vote'
                             })
                         }}
-                        data-seed="logId2"
                     >
                         <VoteComponent/>
                     </TabBar.Item>
@@ -96,12 +93,14 @@ class TabsComponent extends Component {
                         />
                         }
                         selected={this.state.selectedTab === 'tab_barrage'}
-                        dot
                         onPress={() => {
                             this.setState({
-                                selectedTab: 'tab_barrage'
+                                selectedTab: 'tab_barrage',
+                                unReadBarrage: 0
                             })
                         }}
+                        badge={this.state.unReadBarrage}
+                        data-seed="logId1"
                     >
                         <BarrageComponent/>
                     </TabBar.Item>

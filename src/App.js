@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import randomColor from 'randomcolor';
 import posed from 'react-pose';
-import { Emoji } from 'emoji-mart';
+
 import TabsComponent from './components/Tabs';
 
 import socket from './socketio';
@@ -73,31 +73,11 @@ class PoseBarrage extends React.Component {
             fontWeight: 'bold',
             WebkitTextStroke: '0.05vw #000000'
         }}>
-            <EmojiDiv str={this.props.str} height={this.props.eh}/>
+            {this.props.str}
         </Box>
     );
   }
 }
-
-const re_emoji=new RegExp(/\[[a-z|_|-]+\]/g);
-function replaceStr2Emoji(str, height){
-    let match=re_emoji.exec(str);
-    while(match){
-        let tmp = match[0];
-        let new_tmp = tmp.slice(1,tmp.length-1);
-        // str = str.replace(tmp,"<Emoji emoji='"+new_tmp+"' set='twitter' size={"+(Math.floor(height*0.65))+"} />");
-        str = str.replace(tmp, Emoji({html:true, set:'twitter', emoji: new_tmp, size: height*0.65}));
-        match=re_emoji.exec(str);
-    }
-    return str;
-}
-
-const EmojiDiv = ({str, height}) => {
-    return (
-        <div dangerouslySetInnerHTML={{ __html: replaceStr2Emoji(str, height) }}>
-        </div>
-    )
-};
 
 class App extends Component {
     constructor(props) {
