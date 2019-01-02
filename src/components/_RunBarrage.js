@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react';
 import posed from 'react-pose';
 
 const Box = posed.div({
@@ -41,30 +40,6 @@ class PoseBarrage extends React.Component {
             </Box>
         );
     }
-}
-
-const WidthItem = ({str}) => (
-    <div style={{
-        fontSize: '6vw',
-        fontWeight: 'bold',
-        WebkitTextStroke: '0.05vw #000000',
-    }}>
-        {str}
-    </div>
-);
-
-function getItemSize(str) {
-    let tmp = React.createElement(WidthItem, {str});
-    let div = document.createElement('div');
-    document.body.appendChild(div);
-    div.style.position = 'absolute';
-    div.style.top = '-999px';
-    div.style.left = '-999px';
-    ReactDOM.render(tmp, div);
-    let ret_width = parseFloat(getComputedStyle(div).width);
-    let ret_height = parseFloat(getComputedStyle(div).height);
-    ReactDOM.unmountComponentAtNode(div);
-    return {ret_width, ret_height};
 }
 
 const RunBarrageComponent = ({ barrages }) => {

@@ -4,7 +4,6 @@ import { TabBar } from 'antd-mobile';
 import HomeComponent from './Home';
 import RewardComponent from './Reward';
 import VoteComponent from './Vote';
-// import BarrageComponent from './Barrage';
 import BarrageComponent from '../containers/TabBarrage';
 
 import home_svg from '../icons/home.svg';
