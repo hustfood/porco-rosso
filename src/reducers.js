@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { handleAction, handleActions } from 'redux-actions';
-import { ACTIONS } from "./constants";
 
+import { ACTIONS } from "./actions";
 import { TABS} from "./constants";
 const { HOME_TAB } = TABS;
 
@@ -25,8 +25,19 @@ const messages = handleAction(
 
 const barrages = handleActions(
     {
-        [ACTIONS.ADD_BARRAGE]: (state, action) => ([...state, action.payload.barrage]),
-        [ACTIONS.DEL_BARRAGE]: (state, action) => ([...state.slice(0, action.payload.index), ...state.slice(action.payload.index + 1)]),
+        [ACTIONS.ADD_BARRAGE]: (state, action) => (
+            [...state, {
+                barrage: action.payload.barrage,
+                width: action.payload.width,
+                height: action.payload.height,
+                color: action.payload.color,
+                timestamp: action.payload.timestamp
+            }]),
+        [ACTIONS.DEL_BARRAGE]: (state, action) => {
+            let newItems = state.slice();
+            let delIndex = newItems.findIndex(x => x.timestamp === action.payload.timestamp);
+            return [...state.slice(0, delIndex), ...state.slice(delIndex + 1)]
+        }
     },
     []
 );
