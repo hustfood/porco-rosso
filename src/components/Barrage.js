@@ -6,7 +6,6 @@ import socket from '../socketio';
 
 class BarrageComponent extends Component {
     constructor(props) {
-        console.log(props);
         super(props);
 
         this.state = {

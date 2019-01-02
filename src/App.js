@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 import randomColor from 'randomcolor';
 import posed from 'react-pose';
 
 import TabsComponent from './components/Tabs';
 
+import TabbarContainer from './containers/Tabbar';
+import RunBarrageContainer from './containers/RunBarrage';
+
 import socket from './socketio';
 
 import './App.css';
+
+import {
+    handle_barrage,
+    add_message
+} from "./actions";
 
 class WidthItem extends Component {
     render() {
@@ -57,15 +66,15 @@ const Box = posed.div({
 });
 
 class PoseBarrage extends React.Component {
-  state = { isVisible: 'enter' };
+  state = { pose: 'enter' };
 
   componentDidMount() {
-      this.setState({ isVisible: 'exit'});
+      this.setState({ pose: 'exit'});
   }
 
   render() {
     return (
-        <Box pose={this.state.isVisible} w={this.props.w} cw={this.props.cw} h={this.props.h} style={{
+        <Box pose={this.state.pose} w={this.props.w} cw={this.props.cw} h={this.props.h} style={{
             color: this.props.color,
             position: 'fixed',
             zIndex: 999,
@@ -89,10 +98,14 @@ class App extends Component {
     }
     componentDidMount() {
         socket.on('sync barrage', param => {
-            this.handleAdd(param).then((_del) => {
-                this.handleRemove(_del);
-            });
+            this.props.addBarrage(param);
+            this.props.addMessage(param);
         });
+        // socket.on('sync barrage', param => {
+        //     this.handleAdd(param).then((_del) => {
+        //         this.handleRemove(_del);
+        //     });
+        // });
     }
     handleAdd = (str) => {
         return new Promise((resolve, reject) => {
@@ -120,11 +133,24 @@ class App extends Component {
         ));
         return (
             <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
-                {barrageItems}
-                <TabsComponent/>
+                {/*{barrageItems}*/}
+                {/*<TabsComponent/>*/}
+                <RunBarrageContainer/>
+                <TabbarContainer/>
             </div>
         );
     }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => {
+    return {
+        addBarrage: barrage => {
+            dispatch(handle_barrage.addBarrage(barrage))
+        },
+        addMessage: message => {
+            dispatch(add_message(message));
+        }
+    }
+};
+
+export default connect(null, mapDispatchToProps)(App);

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { TabBar } from 'antd-mobile';
 
+import HomeComponent from './Home';
 import RewardComponent from './Reward';
 import VoteComponent from './Vote';
 import BarrageComponent from './Barrage';
 
+import home_svg from '../icons/home.svg';
+import home_un_svg from '../icons/home_un.svg';
 import reward_svg from '../icons/reward.svg';
 import reward_un_svg from '../icons/reward_un.svg';
 import vote_svg from '../icons/vote.svg';
@@ -16,7 +19,7 @@ class TabsComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedTab: 'tab_reward',
+            selectedTab: 'tab_home',
             unReadBarrage: 3
         }
     }
@@ -29,6 +32,30 @@ class TabsComponent extends Component {
                     barTintColor="white"
                     hidden={false}
                 >
+                    <TabBar.Item
+                        title="首页"
+                        key="item_home"
+                        icon={<div style={{
+                            width: '22px',
+                            height: '22px',
+                            background: `url(${home_un_svg}) center center /  21px 21px no-repeat` }}
+                        />
+                        }
+                        selectedIcon={<div style={{
+                            width: '22px',
+                            height: '22px',
+                            background: `url(${home_svg}) center center /  21px 21px no-repeat` }}
+                        />
+                        }
+                        selected={this.state.selectedTab === 'tab_home'}
+                        onPress={() => {
+                            this.setState({
+                                selectedTab: 'tab_home'
+                            })
+                        }}
+                    >
+                        <HomeComponent/>
+                    </TabBar.Item>
                     <TabBar.Item
                         title="抽奖"
                         key="item_reward"
