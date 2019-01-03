@@ -12,8 +12,12 @@ import './App.css';
 
 import {
     handle_barrage,
-    add_message
+    handle_unread_message_count,
+    add_message,
 } from "./actions";
+
+import { TABS } from "./constants";
+const { BARRAGE_TAB } = TABS;
 
 class WidthItem extends Component {
     render() {
@@ -60,7 +64,12 @@ class App extends Component {
             let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
             let pose_height = screen.height * 0.05 + ret_channel * ret_height;
             this.props.asyncBarrage(param, ret_width, pose_height, randomColor(), now_timestamp);
+
             this.props.addMessage(param);
+
+            if (this.props.current_tab !== BARRAGE_TAB) {
+                this.props.setUnreadMessageCount();
+            }
         });
     }
     render() {
@@ -72,6 +81,12 @@ class App extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        current_tab: state.current_tab
+    }
+};
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -88,8 +103,11 @@ const mapDispatchToProps = dispatch => {
         },
         addMessage: message => {
             dispatch(add_message(message));
+        },
+        setUnreadMessageCount: () => {
+            dispatch(handle_unread_message_count.addUnreadMessageCount())
         }
     }
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

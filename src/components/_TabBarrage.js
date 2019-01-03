@@ -1,19 +1,24 @@
 import React from 'react';
-import { List, Flex, WhiteSpace, TextareaItem, Button } from 'antd-mobile';
+import { List, Flex, WhiteSpace, TextareaItem, Button, Toast } from 'antd-mobile';
 import { createForm } from 'rc-form';
 import { ChatFeed, Message } from 'react-chat-ui';
 
 import socket from '../socketio';
 
 const TabBarrageComponent = ({ form, messages }) => {
-    const { getFieldProps} = form;
+    const { getFieldProps } = form;
     const submitInput = () => {
         form.validateFields((error, value) => {
-            socket.emit('send barrage', value, (data) => {
-                if (data === 'ok') {
-                    form.setFieldsValue({say:''});
-                }
-            })
+            if (value.say === undefined || value.say === null || value.say.trim() === '' ) {
+                Toast.fail('亲不能发送空内容呀', 1);
+            }
+            else {
+                socket.emit('send barrage', value, (data) => {
+                    if (data === 'ok') {
+                        form.setFieldsValue({say:''});
+                    }
+                })
+            }
         });
     };
     const chatMessages = messages.map((message) => (

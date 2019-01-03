@@ -17,7 +17,7 @@ import barrage_un_svg from '../icons/barrage_un.svg';
 
 import { TABS } from "../constants";
 
-const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab }) => (
+const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, resetUnreadMessageCount }) => (
     <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
         <TabBar
             unselectedTintColor="#949494"
@@ -108,7 +108,8 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab }) =
                 }
                 selected={current_tab === TABS.BARRAGE_TAB}
                 onPress={() => {
-                    setCurrentTab(TABS.BARRAGE_TAB)
+                    resetUnreadMessageCount();
+                    setCurrentTab(TABS.BARRAGE_TAB);
                 }}
                 badge={unread_message_count}
                 data-seed="logId1"

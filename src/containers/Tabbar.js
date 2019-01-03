@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import TabbarComponent from '../components/_Tabbar';
 
 import {
-    set_current_tab
+    set_current_tab,
+    handle_unread_message_count
 } from "../actions";
 
 
@@ -17,6 +18,9 @@ const mapDispatchToProps = dispatch => {
     return {
         setCurrentTab: tab => {
             dispatch(set_current_tab(tab))
+        },
+        resetUnreadMessageCount: () => {
+            dispatch(handle_unread_message_count.setUnreadMessageCount(0))
         }
     }
 };

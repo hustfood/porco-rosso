@@ -11,9 +11,11 @@ const current_tab = handleAction(
     HOME_TAB
 );
 
-const unread_message_count = handleAction(
-    ACTIONS.SET_UNREAD_MESSAGE_COUNT,
-    (state, action) => (action.payload.unread_message_count),
+const unread_message_count = handleActions(
+    {
+        [ACTIONS.ADD_UNREAD_MESSAGE_COUNT]: (state, action) => (state<10 ? state+1 : '...'),
+        [ACTIONS.SET_UNREAD_MESSAGE_COUNT]: (state, action) => (action.payload.unread_message_count),
+    },
     0
 );
 
