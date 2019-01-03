@@ -1,19 +1,10 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
 
-import HomeComponent from './Home';
 import RewardComponent from './Reward';
 import VoteComponent from './Vote';
+import HomeComponent from '../containers/TabHome';
 import BarrageComponent from '../containers/TabBarrage';
-
-import home_svg from '../icons/home.svg';
-import home_un_svg from '../icons/home_un.svg';
-import reward_svg from '../icons/reward.svg';
-import reward_un_svg from '../icons/reward_un.svg';
-import vote_svg from '../icons/vote.svg';
-import vote_un_svg from '../icons/vote_un.svg';
-import barrage_svg from '../icons/barrage.svg';
-import barrage_un_svg from '../icons/barrage_un.svg';
 
 import { TABS } from "../constants";
 
@@ -31,13 +22,13 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
                 icon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${home_un_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/home_un.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selectedIcon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${home_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/home.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selected={current_tab === TABS.HOME_TAB}
@@ -53,13 +44,13 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
                 icon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${reward_un_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/reward_un.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selectedIcon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${reward_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/reward.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selected={current_tab === TABS.REWARD_TAB}
@@ -75,13 +66,13 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
                 icon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${vote_un_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/vote_un.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selectedIcon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${vote_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/vote.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selected={current_tab === TABS.VOTE_TAB}
@@ -97,13 +88,13 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
                 icon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${barrage_un_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/barrage_un.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selectedIcon={<div style={{
                     width: '22px',
                     height: '22px',
-                    background: `url(${barrage_svg}) center center /  21px 21px no-repeat` }}
+                    background: `url(http://foojamfung.top/img/barrage.svg) center center /  21px 21px no-repeat` }}
                 />
                 }
                 selected={current_tab === TABS.BARRAGE_TAB}
