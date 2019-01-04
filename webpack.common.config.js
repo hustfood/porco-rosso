@@ -1,10 +1,20 @@
 module.exports = {
     entry: {
         main: './src/index.js',
+        socket_io: './src/socketio.js',
+        tab_barrage: './src/components/_TabBarrage.js',
+        tab_home: './src/components/_TabHome.js',
+        tab_reward: './src/components/_TabReward.js',
+        tab_vote: './src/components/_TabVote.js'
     },
     output: {
         filename: '[name].bundle.js',
         chunkFilename: '[name].bundle.js'
+    },
+    optimization: {
+        splitChunks: {
+            chunks: 'all'
+        }
     },
     module: {
         rules:

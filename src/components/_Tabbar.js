@@ -1,8 +1,8 @@
 import React from 'react';
 import { TabBar } from 'antd-mobile';
 
-import RewardComponent from './Reward';
-import VoteComponent from './Vote';
+import RewardComponent from '../containers/TabReward';
+import VoteComponent from '../containers/TabVote';
 import HomeComponent from '../containers/TabHome';
 import BarrageComponent from '../containers/TabBarrage';
 
