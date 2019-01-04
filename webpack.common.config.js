@@ -1,9 +1,10 @@
 module.exports = {
-    entry: [
-        './src/index.js',
-    ],
+    entry: {
+        main: './src/index.js',
+    },
     output: {
         filename: '[name].bundle.js',
+        chunkFilename: '[name].bundle.js'
     },
     module: {
         rules:
@@ -19,7 +20,9 @@ module.exports = {
                         loader: 'babel-loader',
                         query: {
                             presets: ['@babel/preset-react', '@babel/preset-env'],
-                            plugins: ['@babel/plugin-proposal-class-properties',
+                            plugins: [
+                                '@babel/plugin-proposal-class-properties',
+                                '@babel/plugin-syntax-dynamic-import',
                                 ["import", { "libraryName": "antd-mobile", "style": "css" }]
                             ]
                         }
