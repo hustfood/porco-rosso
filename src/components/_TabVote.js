@@ -1,15 +1,160 @@
-import React from 'react';
-import { Flex, WhiteSpace } from 'antd-mobile';
+import React, { Component } from 'react';
+import { Flex, WhiteSpace, Picker, InputItem, List, Toast } from 'antd-mobile';
 
-const TabVoteComponent = () => (
-    <div className="flex-container">
-        <div className="sub-title">Vote</div>
-        <Flex>
-            <Flex.Item>hi</Flex.Item>
-        </Flex>
-        <WhiteSpace size="lg"/>
-    </div>
-);
+const colorStyle = {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    width: '16px',
+    height: '16px',
+    marginRight: '10px',
+};
+
+const colors = [
+    {
+        label: (
+            <div>
+                <span style={{ ...colorStyle, backgroundColor: '#FF3300' }} />
+                <span>Eros</span>
+            </div>
+        ),
+        value: 'red',
+    },
+    {
+        label: (
+            <div>
+                <span style={{ ...colorStyle, backgroundColor: '#FFC000' }} />
+                <span>Gaia</span>
+            </div>
+        ),
+        value: 'yellow',
+    },
+    {
+        label: (
+            <div>
+                <span style={{ ...colorStyle, backgroundColor: '#99CCFF' }} />
+                <span>Titan</span>
+            </div>
+        ),
+        value: 'blue',
+    },
+    {
+        label: (
+            <div>
+                <span style={{ ...colorStyle, backgroundColor: '#99CC00' }} />
+                <span>Moco</span>
+            </div>
+        ),
+        value: 'green',
+    },
+    {
+        label: (
+            <div>
+                <span style={{ ...colorStyle, backgroundColor: '#9966CC' }} />
+                <span>Fm&Maki</span>
+            </div>
+        ),
+        value: 'purple',
+    },
+];
+
+class TabVoteComponent extends Component {
+    state = {
+        hasError: true,
+        qaCode: '',
+        vote1: '',
+        vote2: ''
+    };
+    onErrorClick = () => {
+        if (this.state.hasError) {
+            Toast.info('请输入8位数字的标识码', 1);
+        }
+    };
+    onChange = (qaCode) => {
+        if (qaCode.replace(/\s/g, '').length !== 8) {
+            this.setState({
+                hasError: true,
+            });
+        } else {
+            this.setState({
+                hasError: false,
+            });
+        }
+        this.setState({
+            qaCode,
+        });
+    };
+    onChangeVote1 = (vote1) => {
+        this.setState({
+            vote1
+        })
+    };
+    onChangeVote2 = (vote2) => {
+        this.setState({
+            vote2
+        })
+    };
+    handleClick = () => {
+        console.log(this.state.qaCode);
+    };
+    render() {
+        return (
+            <div className="flex-container">
+                <div className="sub-title">票选最佳</div>
+                <Flex>
+                    <Flex.Item>
+                        chart here
+                    </Flex.Item>
+                </Flex>
+                <WhiteSpace size="lg"/>
+                <Flex>
+                    <Flex.Item>
+                        <List>
+                            <Picker
+                                data={colors}
+                                value={this.state.vote1}
+                                cols={1}
+                                onChange={this.onChangeVote1}
+                            >
+                                <List.Item arrow="horizontal">第一票</List.Item>
+                            </Picker>
+                        </List>
+                        <WhiteSpace size="lg"/>
+                        <List>
+                            <Picker
+                                data={colors}
+                                value={this.state.vote2}
+                                cols={1}
+                                onChange={this.onChangeVote2}
+                            >
+                                <List.Item arrow="horizontal">第二票</List.Item>
+                            </Picker>
+                        </List>
+                        <WhiteSpace size="lg"/>
+                        <List>
+                            <InputItem
+                                placeholder="8位数字标识码"
+                                error={this.state.hasError}
+                                onErrorClick={this.onErrorClick}
+                                onChange={this.onChange}
+                                value={this.state.qaCode}
+                            >
+                                <div style={{ backgroundImage: 'url(https://zos.alipayobjects.com/rmsportal/DfkJHaJGgMghpXdqNaKF.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
+                            </InputItem>
+                        </List>
+                        <List.Item>
+                            <div
+                                style={{ width: '100%', color: '#108ee9', textAlign: 'center' }}
+                                onClick={this.handleClick}
+                            >
+                                OK
+                            </div>
+                        </List.Item>
+                    </Flex.Item>
+                </Flex>
+            </div>
+        )
+   }
+}
 
 export default TabVoteComponent;
 

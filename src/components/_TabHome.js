@@ -6,7 +6,7 @@ const data = ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRV
 const TabHomeComponent = () => (
     <div>
         <div className="flex-container">
-            <div className="sub-title">2019QA年会欢迎你</div>
+            <div className="sub-title">QA年会欢迎你</div>
             <Flex>
                 <Flex.Item>
                     <Carousel
