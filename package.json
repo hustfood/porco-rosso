@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd-mobile": "^2.2.6",
+    "bizgoblin": "0.0.6",
     "randomcolor": "^0.5.3",
     "rc-form": "^2.3.0",
     "react": "^16.6.3",

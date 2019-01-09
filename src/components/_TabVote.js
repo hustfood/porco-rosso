@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Flex, WhiteSpace, Picker, InputItem, List, Toast } from 'antd-mobile';
+import { Chart, Axis, Geom, Tooltip } from 'bizgoblin';
 
 const colorStyle = {
     display: 'inline-block',
@@ -57,6 +58,39 @@ const colors = [
     },
 ];
 
+const data111 = [
+  {
+    year: '1951 年',
+    sales: 38,
+  }, {
+    year: '1952 年',
+    sales: 52,
+  }, {
+    year: '1956 年',
+    sales: 61,
+  }, {
+    year: '1957 年',
+    sales: 145,
+  }, {
+    year: '1958 年',
+    sales: 48,
+  }
+];
+
+const defs111 = [{
+  dataKey: 'year',
+}, {
+  dataKey: 'sales',
+  tickCount: 5,
+}];
+
+function onShowTooltip(ev) {
+  const items = ev.items;
+  items[0].name = null;
+  items[0].name = items[0].title;
+  items[0].value = `¥ ${items[0].value}`;
+}
+
 class TabVoteComponent extends Component {
     state = {
         hasError: true,
@@ -97,12 +131,18 @@ class TabVoteComponent extends Component {
         console.log(this.state.qaCode);
     };
     render() {
+        let chart_height = screen.height * 0.4;
         return (
             <div className="flex-container">
                 <div className="sub-title">票选最佳</div>
                 <Flex>
                     <Flex.Item>
-                        chart here
+      <Chart width="100%" height={chart_height} data={data111} defs={defs111} animate={{ type: 'scaley' }} pixelRatio={window.devicePixelRatio*2} >
+        <Axis dataKey="year" label={{ fontSize: 8 }} />
+        <Axis dataKey="sales" />
+        <Tooltip showItemMarker={false} onShow={onShowTooltip} />
+        <Geom geom="interval" position="year*sales" />
+      </Chart>
                     </Flex.Item>
                 </Flex>
                 <WhiteSpace size="lg"/>
@@ -138,7 +178,7 @@ class TabVoteComponent extends Component {
                                 onChange={this.onChange}
                                 value={this.state.qaCode}
                             >
-                                <div style={{ backgroundImage: 'url(https://zos.alipayobjects.com/rmsportal/DfkJHaJGgMghpXdqNaKF.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
+                                <div style={{ backgroundImage: 'url(http://foojamfung.top/img/qa.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
                             </InputItem>
                         </List>
                         <List.Item>
