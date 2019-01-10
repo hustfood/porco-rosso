@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, WhiteSpace, Picker, InputItem, List, Toast } from 'antd-mobile';
+import { Flex, WhiteSpace, Picker, InputItem, List, Toast, Button } from 'antd-mobile';
 import { Chart, Axis, Geom, Tooltip } from 'bizgoblin';
 
 const colorStyle = {
@@ -15,7 +15,7 @@ const colors = [
         label: (
             <div>
                 <span style={{ ...colorStyle, backgroundColor: '#FF3300' }} />
-                <span>Eros</span>
+                <span>EROS</span>
             </div>
         ),
         value: 'red',
@@ -24,7 +24,7 @@ const colors = [
         label: (
             <div>
                 <span style={{ ...colorStyle, backgroundColor: '#FFC000' }} />
-                <span>Gaia</span>
+                <span>GAIA</span>
             </div>
         ),
         value: 'yellow',
@@ -33,7 +33,7 @@ const colors = [
         label: (
             <div>
                 <span style={{ ...colorStyle, backgroundColor: '#99CCFF' }} />
-                <span>Titan</span>
+                <span>TITAN</span>
             </div>
         ),
         value: 'blue',
@@ -42,7 +42,7 @@ const colors = [
         label: (
             <div>
                 <span style={{ ...colorStyle, backgroundColor: '#99CC00' }} />
-                <span>Moco</span>
+                <span>MOCO</span>
             </div>
         ),
         value: 'green',
@@ -51,7 +51,7 @@ const colors = [
         label: (
             <div>
                 <span style={{ ...colorStyle, backgroundColor: '#9966CC' }} />
-                <span>Fm&Maki</span>
+                <span>FM&MAKI</span>
             </div>
         ),
         value: 'purple',
@@ -60,25 +60,25 @@ const colors = [
 
 const data111 = [
   {
-    year: '1951 年',
+    group: 'EROS',
     sales: 38,
   }, {
-    year: '1952 年',
+    group: 'GAIA',
     sales: 52,
   }, {
-    year: '1956 年',
+    group: 'TITAN',
     sales: 61,
   }, {
-    year: '1957 年',
+    group: 'MOCO',
     sales: 145,
   }, {
-    year: '1958 年',
+    group: 'FM&MAKI',
     sales: 48,
   }
 ];
 
 const defs111 = [{
-  dataKey: 'year',
+  dataKey: 'group',
 }, {
   dataKey: 'sales',
   tickCount: 5,
@@ -131,18 +131,29 @@ class TabVoteComponent extends Component {
         console.log(this.state.qaCode);
     };
     render() {
-        let chart_height = screen.height * 0.4;
+        let chart_height = screen.height * 0.3;
         return (
             <div className="flex-container">
                 <div className="sub-title">票选最佳</div>
                 <Flex>
                     <Flex.Item>
-      <Chart width="100%" height={chart_height} data={data111} defs={defs111} animate={{ type: 'scaley' }} pixelRatio={window.devicePixelRatio*2} >
-        <Axis dataKey="year" label={{ fontSize: 8 }} />
-        <Axis dataKey="sales" />
-        <Tooltip showItemMarker={false} onShow={onShowTooltip} />
-        <Geom geom="interval" position="year*sales" />
-      </Chart>
+                        <Chart
+                            width="100%"
+                            height={chart_height}
+                            data={data111}
+                            defs={defs111}
+                            animate={{ type: 'scaley' }}
+                            pixelRatio={window.devicePixelRatio*2}
+                        >
+                                        <Axis dataKey="group" label={{ fontSize: '10px' }} />
+                                        <Axis dataKey="sales"/>
+                                        <Tooltip showItemMarker={false} onShow={onShowTooltip} />
+                                        <Geom
+                                            geom="interval"
+                                            position="group*sales"
+                                            color={['group', ['#FF3300', '#FFC000', '#99CCFF', '#99CC00', '#9966CC']]}
+                                        />
+                        </Chart>
                     </Flex.Item>
                 </Flex>
                 <WhiteSpace size="lg"/>
@@ -172,6 +183,7 @@ class TabVoteComponent extends Component {
                         <WhiteSpace size="lg"/>
                         <List>
                             <InputItem
+                                type="number"
                                 placeholder="8位数字标识码"
                                 error={this.state.hasError}
                                 onErrorClick={this.onErrorClick}
@@ -181,14 +193,12 @@ class TabVoteComponent extends Component {
                                 <div style={{ backgroundImage: 'url(http://foojamfung.top/img/qa.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
                             </InputItem>
                         </List>
-                        <List.Item>
-                            <div
-                                style={{ width: '100%', color: '#108ee9', textAlign: 'center' }}
-                                onClick={this.handleClick}
-                            >
-                                OK
-                            </div>
-                        </List.Item>
+                    </Flex.Item>
+                </Flex>
+                <WhiteSpace size="lg"/>
+                <Flex>
+                    <Flex.Item>
+                        <Button type="ghost" icon="check-circle-o" onClick={this.handleClick}>投票</Button>
                     </Flex.Item>
                 </Flex>
             </div>

@@ -90,7 +90,7 @@ class App extends Component {
     }
     render() {
         return (
-            <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+            <div>
                 <RunBarrageContainer/>
                 <TabbarContainer/>
             </div>
