@@ -23,7 +23,7 @@
 
 .loading-box{
 	position: relative;
-	width: 50%;		/* desired width */
+	width: 30%;		/* desired width */
 }
 .loading-box:before{
 	content: "";

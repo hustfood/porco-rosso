@@ -39,7 +39,7 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
                 <HomeComponent/>
             </TabBar.Item>
             <TabBar.Item
-                title="抽奖"
+                title="奖品"
                 key="item_reward"
                 icon={<div style={{
                     width: '22px',
