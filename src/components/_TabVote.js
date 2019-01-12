@@ -1,41 +1,7 @@
 import React, { Component } from 'react';
 import { Flex, WhiteSpace, Picker, InputItem, List, Toast, Button } from 'antd-mobile';
-import { Chart, Axis, Geom, Tooltip } from 'bizgoblin';
 
 import { VOTE_OPTIONS } from "../constants";
-
-const data = [
-  {
-    group: 'EROS',
-    sales: 38,
-  }, {
-    group: 'GAIA',
-    sales: 52,
-  }, {
-    group: 'TITAN',
-    sales: 61,
-  }, {
-    group: 'MOCO',
-    sales: 145,
-  }, {
-    group: 'FM&MAKI',
-    sales: 48,
-  }
-];
-
-const defs = [{
-  dataKey: 'group',
-}, {
-  dataKey: 'sales',
-  tickCount: 5,
-}];
-
-function onShowTooltip(ev) {
-  const items = ev.items;
-  items[0].name = null;
-  items[0].name = items[0].title;
-  items[0].value = `¥ ${items[0].value}`;
-}
 
 class TabVoteComponent extends Component {
     state = {
@@ -89,33 +55,19 @@ class TabVoteComponent extends Component {
         }
     };
     render() {
-        let chart_height = screen.height * 0.35;
         return (
             <div>
-                <div className="flex-container">
-                    <div className="sub-title">票选最佳</div>
-                    <Flex>
-                        <Flex.Item>
-                            <Chart
-                                width="100%"
-                                height={chart_height}
-                                data={data}
-                                defs={defs}
-                                animate={{ type: 'scaley' }}
-                                pixelRatio={window.devicePixelRatio*2}
-                            >
-                                            <Axis dataKey="group" label={{ fontSize: '10px' }} />
-                                            <Axis dataKey="sales"/>
-                                            <Tooltip showItemMarker={false} onShow={onShowTooltip} />
-                                            <Geom
-                                                geom="interval"
-                                                position="group*sales"
-                                                color={['group', ['#FF3300', '#FFC000', '#99CCFF', '#99CC00', '#9966CC']]}
-                                            />
-                            </Chart>
-                        </Flex.Item>
-                    </Flex>
-                </div>
+                <div
+                    style={{
+                        fontWeight: 'bold',
+                        fontSize: '7vw',
+                        padding: "30px 0 18px 15px",
+                        height: screen.height*0.6,
+                        backgroundImage: 'url(http://foojamfung.top/img/chart.png)',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: '10% 40%',
+                    }}
+                >票选最佳</div>
                 <div className="barrage-flex-container">
                     <Flex>
                         <Flex.Item>
@@ -131,7 +83,8 @@ class TabVoteComponent extends Component {
                                     <div style={{ backgroundImage: 'url(http://foojamfung.top/img/qa.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
                                 </InputItem>
                             </List>
-                            <List renderHeader={()=>this.state.ex_vote1} style={{ textAlign: 'right' }}>
+                            <WhiteSpace size="md"/>
+                            <List>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote1}
@@ -141,7 +94,8 @@ class TabVoteComponent extends Component {
                                     <List.Item arrow="horizontal">第一票</List.Item>
                                 </Picker>
                             </List>
-                            <List renderHeader={()=>this.state.ex_vote2} style={{ textAlign: 'right' }}>
+                            <WhiteSpace size="md"/>
+                            <List>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote2}
@@ -165,5 +119,5 @@ class TabVoteComponent extends Component {
    }
 }
 
-export default TabVoteComponent;
+export default TabVoteComponent
 

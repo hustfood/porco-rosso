@@ -1,63 +1,60 @@
 import React from 'react';
-import { Flex, WhiteSpace, Carousel, Badge } from 'antd-mobile';
+import { Flex, WhiteSpace, Carousel } from 'antd-mobile';
 
-const data = ['banner1', 'banner2', 'banner3'];
+const banner = ['banner1', 'banner2', 'banner3'];
 
 const groups = [
     {
         color: '#FF3300',
         name: 'EROS',
-        video: 'https://pan.baidu.com/s/1Wwc7m-nD10CQFY843nLBYQ'
+        video: 'https://pan.baidu.com/s/1Wwc7m-nD10CQFY843nLBYQ',
+        link: 'video_1.svg'
     },
     {
         color: '#FFC000',
         name: 'GAIA',
-        video: 'https://pan.baidu.com/s/1ndkAhocCaokCRz_lISNM-A'
+        video: 'https://pan.baidu.com/s/1ndkAhocCaokCRz_lISNM-A',
+        link: 'video_2.svg'
     },
     {
         color: '#99CCFF',
         name: 'TITAN',
-        video: 'https://pan.baidu.com/s/16HBHeMB7L-j4B841dQvMLw'
+        video: 'https://pan.baidu.com/s/16HBHeMB7L-j4B841dQvMLw',
+        link: 'video_3.svg'
     },
     {
         color: '#99CC00',
         name: 'MOCO',
-        video: 'https://pan.baidu.com/s/1miDTmPDbFQkbDo8ToyXbeA'
+        video: 'https://pan.baidu.com/s/1miDTmPDbFQkbDo8ToyXbeA',
+        link: 'video_4.svg'
     },
     {
         color: '#9966CC',
         name: 'FM&MAKI',
-        video: 'https://pan.baidu.com/s/1KS0ydhxvj6X7NOQSwZ7pGg'
+        video: 'https://pan.baidu.com/s/1KS0ydhxvj6X7NOQSwZ7pGg',
+        link: 'video_5.svg'
     },
 ];
 
 const badges = groups.map((g, i) => (
     <div key={i}>
         <div
+            key={i}
             style={{
-                margin: '0 15px',
-                padding: '5px',
-                backgroundColor: '#fff',
+                margin: '5px 20px 5px 10px',
+                padding: '10px 12px 10px 15px',
                 borderRadius: 4,
                 color: g.color,
-                fontSize: '20px',
+                fontSize: '15px',
                 border: `1px solid ${g.color}`,
-                display: 'inline'
+                textAlign: 'left',
+                width: '60%',
+                display: 'inline-block'
             }}
         >
             {g.name}
         </div>
-        <a
-            href={g.video}
-            target="_blank"
-            style={{
-                color: g.color
-            }}
-        >
-            >> 观看新人战队视频
-        </a>
-        <WhiteSpace size="lg"/>
-        <WhiteSpace size="lg"/>
+        <a href={g.video} target="_blank"><img src={`http://foojamfung.top/img/${g.link}`} style={{ height: '100%', verticalAlign: 'middle' }}/></a>
     </div>
 ));
 
@@ -71,10 +68,9 @@ const TabHomeComponent = () => (
                         autoplay={true}
                         infinite
                     >
-                        {data.map(val => (
+                        {banner.map(val => (
                           <a
                             key={val}
-                            href="http://foojamfung.top"
                             style={{ display: 'inline-block', width: '100%', height: 'auto' }}
                           >
                             <img
@@ -99,17 +95,17 @@ const TabHomeComponent = () => (
                 position: 'absolute',
                 backgroundImage: 'url(http://foojamfung.top/img/pig2.png)',
                 backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right top',
+                backgroundPosition: '100% 10%',
             }}
         >
             <div
                 style={{
-                    marginLeft: '3%'
+                    textAlign: 'center'
                 }}
             >
                 {badges}
             </div>
-            <WhiteSpace size="lg"/>
+            <WhiteSpace/>
             <div
                 style={{
                     textAlign: 'center'
@@ -126,4 +122,4 @@ const TabHomeComponent = () => (
     </div>
 );
 
-export default TabHomeComponent;
+export default TabHomeComponent

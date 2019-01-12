@@ -1,10 +1,7 @@
 module.exports = {
     entry: {
-        main: './src/index.js',
-        // tab_home: './src/components/_TabHome.js',
-        // tab_reward: './src/components/_TabReward.js',
-        // tab_vote: './src/components/_TabVote.js',
-        // tab_barrage: './src/components/_TabBarrage.js',
+        // main: './src/index.js',
+        admin: './src/index_admin.js',
     },
     output: {
         filename: '[name].bundle.js',

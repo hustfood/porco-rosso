@@ -2,13 +2,20 @@ import { combineReducers } from 'redux';
 import { handleAction, handleActions } from 'redux-actions';
 
 import { ACTIONS } from "./actions";
-import { TABS} from "./constants";
+import { TABS, ADMIN_TABS } from "./constants";
 const { HOME_TAB } = TABS;
+const { VOTE_TAB } = ADMIN_TABS;
 
 const current_tab = handleAction(
     ACTIONS.SET_CURRENT_TAB,
     (state, action) => (action.payload.current_tab),
     HOME_TAB
+);
+
+const admin_current_tab = handleAction(
+    ACTIONS.SET_ADMIN_CURRENT_TAB,
+    (state, action) => (action.payload.admin_current_tab),
+    VOTE_TAB
 );
 
 const unread_message_count = handleActions(
@@ -46,6 +53,7 @@ const barrages = handleActions(
 
 const reducer = combineReducers({
     current_tab,
+    admin_current_tab,
     unread_message_count,
     messages,
     barrages

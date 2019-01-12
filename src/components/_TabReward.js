@@ -69,4 +69,4 @@ const TabRewardComponent = () => (
     </div>
 );
 
-export default TabRewardComponent;
+export default TabRewardComponent

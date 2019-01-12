@@ -9,7 +9,7 @@ import BarrageComponent from '../containers/TabBarrage';
 import { TABS } from "../constants";
 
 const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, resetUnreadMessageCount }) => (
-    <div style={{ position: 'fixed', height: '100%', width: '100%', top: 0 }}>
+    <div style={{ height: window.innerHeight, width: '100%', top: 0 }}>
         <TabBar
             unselectedTintColor="#949494"
             tintColor="#33A3F4"
@@ -112,4 +112,4 @@ const TabbarComponent = ({ current_tab, unread_message_count, setCurrentTab, res
 
 );
 
-export default TabbarComponent;
+export default TabbarComponent

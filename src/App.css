@@ -15,6 +15,13 @@
     padding: 30px 0 18px 0;
 }
 
+.flex-container .pc-sub-title {
+    font-weight: bold;
+    font-size: 5vw;
+    padding: 30px 0 18px 0;
+    color: darkgray;
+}
+
 .beian {
     color: gray;
     font-size: 13px;

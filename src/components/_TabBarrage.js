@@ -34,7 +34,17 @@ const TabBarrageComponent = ({ form, messages }) => {
     ));
     return (
         <div>
-            <div style={{ fontWeight: 'bold', fontSize: '7vw', padding: "30px 0 18px 15px" }}>弹幕互动</div>
+            <div
+                style={{
+                    fontWeight: 'bold',
+                    fontSize: '7vw',
+                    padding: "30px 0 18px 15px",
+                    height: screen.height*0.6,
+                    backgroundImage: 'url(http://foojamfung.top/img/chat.png)',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: '10% 40%',
+                }}
+            >弹幕互动</div>
             <div className="barrage-flex-container">
                 <Flex>
                     <Flex.Item>
@@ -72,4 +82,4 @@ const TabBarrageComponent = ({ form, messages }) => {
     );
 };
 
-export default createForm()(TabBarrageComponent);
+export default createForm()(TabBarrageComponent)
