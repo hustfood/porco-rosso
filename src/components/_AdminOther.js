@@ -3,6 +3,8 @@ import { Flex, WhiteSpace, Picker, InputItem, List, Toast, Switch } from 'antd-m
 
 import { VOTE_OPTIONS } from "../constants";
 
+import socket from '../socketio';
+
 class AddGroupScoreComponent extends Component {
     state = {
         group: [],
@@ -89,7 +91,16 @@ class SetBestGroupComponent extends Component {
         });
     };
     onBtnClick = () => {
-        console.log(this.state.group);
+        if (!this.state.group.length > 0) {
+            Toast.fail('请选择目标组', 1)
+        } else {
+            let win_group = this.state.group[0];
+            socket.emit('set win group', win_group, (data) => {
+                if (data === 'ok') {
+                    Toast.success(`[${win_group}]设置成功`, 1)
+                }
+            })
+        }
     };
     render() {
         return (
@@ -117,30 +128,24 @@ class SetBestGroupComponent extends Component {
     }
 }
 
-class AdminOtherComponent extends Component {
-    state = {
-    };
-    render() {
-        return (
-            <div className="flex-container">
-                <div className="pc-sub-title"/>
-                    <Flex>
-                        <Flex.Item>
-                            <div style={{
-                                width: '40%',
-                                margin: '0 auto'
-                            }}>
-                                <SetBestGroupComponent/>
-                                <WhiteSpace size="lg"/>
-                                <SetEnableVoteComponent/>
-                                <WhiteSpace size="lg"/>
-                                <AddGroupScoreComponent/>
-                            </div>
-                        </Flex.Item>
-                    </Flex>
-            </div>
-        )
-    }
-}
+const AdminOtherComponent = () =>(
+    <div className="flex-container">
+        <div className="pc-sub-title">后台管理</div>
+            <Flex>
+                <Flex.Item>
+                    <div style={{
+                        width: '50%',
+                        margin: '0 auto'
+                    }}>
+                        <SetBestGroupComponent/>
+                        <WhiteSpace size="lg"/>
+                        <SetEnableVoteComponent/>
+                        <WhiteSpace size="lg"/>
+                        <AddGroupScoreComponent/>
+                    </div>
+                </Flex.Item>
+            </Flex>
+    </div>
+);
 
 export default AdminOtherComponent

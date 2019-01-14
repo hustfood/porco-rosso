@@ -18,6 +18,12 @@ const admin_current_tab = handleAction(
     VOTE_TAB
 );
 
+const win_group = handleAction(
+    ACTIONS.SET_WIN_GROUP,
+    (state, action) => (action.payload.win_group),
+    ''
+);
+
 const unread_message_count = handleActions(
     {
         [ACTIONS.ADD_UNREAD_MESSAGE_COUNT]: (state, action) => (state<10 ? state+1 : '...'),
@@ -54,6 +60,7 @@ const barrages = handleActions(
 const reducer = combineReducers({
     current_tab,
     admin_current_tab,
+    win_group,
     unread_message_count,
     messages,
     barrages

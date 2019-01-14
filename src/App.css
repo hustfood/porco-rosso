@@ -18,7 +18,8 @@
 .flex-container .pc-sub-title {
     font-weight: bold;
     font-size: 5vw;
-    padding: 30px 0 18px 0;
+    text-align: center;
+    margin: 15px 0 30px 0;
     color: darkgray;
 }
 

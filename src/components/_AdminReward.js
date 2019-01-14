@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Flex, WhiteSpace, Picker, InputItem, List, Toast, Button } from 'antd-mobile';
+import { Flex, WhiteSpace, Tabs, InputItem, List, Toast, Button } from 'antd-mobile';
+
+import socket from '../socketio';
 
 const DIV_LEN = 9;
 
 class RepeatDivComponent extends Component {
     state = {
-        s: ['-', '-', '-', '-', '-', '-', '-' , '-', '-'],
+        s: ['', '', '', '', '?', '', '' , '', ''],
         t: [],
         run: false,
-        running: false
+        running: false,
     };
     randSet = (index) => {
         let s = Math.floor(Math.random()*10).toString();
@@ -60,7 +62,7 @@ class RepeatDivComponent extends Component {
                     newT[i] = Math.floor(Math.random()*10).toString();
                 }
                 resolve(newT)
-            }, 1000)
+            }, 5000)
         });
     };
     onClick = () => {
@@ -78,7 +80,8 @@ class RepeatDivComponent extends Component {
             textAlign: 'center',
             width: '60%',
             margin: '0 auto',
-            padding: '0 30px 30px 30px'
+            padding: '0 30px 30px 30px',
+            display: 'block'
         };
         let btn_div_style = {
             textAlign: 'center',
@@ -86,7 +89,6 @@ class RepeatDivComponent extends Component {
             margin: '0 auto',
         };
         let span_style = {
-            color: 'lightgray',
             fontSize: '7vw',
             display: 'inline-block',
             width: '11%',
@@ -107,20 +109,65 @@ class RepeatDivComponent extends Component {
     }
 }
 
+const tabs = [
+    { title: '胜利组成员' },
+    { title: '幸运支持者①' },
+    { title: '幸运支持者②' }
+];
+
 class AdminRewardComponent extends Component {
     state = {
+        win_group: '?'
     };
+    componentDidMount() {
+        socket.on('sync win group', param => this.setState({win_group: param}))
+    }
     render() {
         return (
             <div className="flex-container">
-                <div className="pc-sub-title"/>
+                <div style={{
+                    width: '70%',
+                    margin: '0 auto'
+                }}>
                     <Flex>
                         <Flex.Item>
-                            <RepeatDivComponent/>
-                            <RepeatDivComponent/>
-                            <RepeatDivComponent/>
+                            <div style={{
+                                textAlign: 'center',
+                                marginBottom: '30px'
+                            }}>
+                                <img style={{ verticalAlign: 'middle' }} src='http://foojamfung.top/img/crown.png'/>
+                                <span style={{
+                                    display: 'inline-block',
+                                    verticalAlign: 'middle',
+                                    fontSize: '5vw',
+                                    margin: '0 10px 0 10px'
+                                }}>
+                                    {this.state.win_group}
+                                </span>
+                                <img style={{ verticalAlign: 'middle' }} src='http://foojamfung.top/img/crown.png'/>
+                            </div>
                         </Flex.Item>
                     </Flex>
+                    <Flex>
+                        <Flex.Item>
+                            <Tabs
+                                tabs={tabs}
+                                initialPage={0}
+                                animated={false}
+                            >
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                    <RepeatDivComponent/>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                    <RepeatDivComponent/>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                    <RepeatDivComponent/>
+                                </div>
+                            </Tabs>
+                        </Flex.Item>
+                    </Flex>
+                </div>
             </div>
         )
     }

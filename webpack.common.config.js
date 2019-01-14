@@ -1,6 +1,6 @@
 module.exports = {
     entry: {
-        // main: './src/index.js',
+        main: './src/index.js',
         admin: './src/index_admin.js',
     },
     output: {

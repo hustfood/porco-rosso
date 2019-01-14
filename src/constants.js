@@ -13,6 +13,30 @@ export const ADMIN_TABS = {
     OTHER_TAB: 'OTHER_TAB'
 };
 
+const GROUPS = {
+    EROS: 'EROS',
+    GAIA: 'GAIA',
+    TITAN: 'TITAN',
+    MOCO: 'MOCO',
+    FM: 'FM&MAKI'
+};
+
+export const GROUP2ID = {
+    [GROUPS.EROS]: 4,
+    [GROUPS.GAIA]: 1,
+    [GROUPS.TITAN]: 2,
+    [GROUPS.MOCO]: 3,
+    [GROUPS.FM]: 5
+};
+
+export const ID2GROUP = {
+    1: GROUPS.GAIA,
+    2: GROUPS.TITAN,
+    3: GROUPS.MOCO,
+    4: GROUPS.EROS,
+    5: GROUPS.FM
+};
+
 export const REWARD_SHOW = [
     ['pencil+pad.jpg', 'Apple iPad Pro', '一等奖', '包括iPad Pro Pencil手写笔', '1'],
     ['ps4pro1.jpg', 'Sony PS4 Pro', '二等奖', '黑色 1TB 国行', '4'],
