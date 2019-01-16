@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Flex, WhiteSpace, Tabs, InputItem, List, Toast, Button } from 'antd-mobile';
+import { Flex, WhiteSpace, Tabs, Toast, Button } from 'antd-mobile';
 
 import socket from '../socketio';
 
@@ -13,6 +13,8 @@ class RepeatDivComponent extends Component {
         t: [],
         run: false,
         running: false,
+        l: '',
+        show_l: false
     };
     randSetAll = () => {
         let newT = new Array(DIV_LEN);
@@ -33,7 +35,8 @@ class RepeatDivComponent extends Component {
                 if (this.state.s.toString() === this.state.t.toString()) {
                     this.setState({
                         t: [],
-                        running: false
+                        running: false,
+                        show_l: true
                     })
                 } else {
                     if (this.state.t.length === DIV_LEN) {
@@ -56,7 +59,8 @@ class RepeatDivComponent extends Component {
         return new Promise((resolve, reject) => {
             this.setState({
                 run: true,
-                running: true
+                running: true,
+                show_l: false
             });
             setTimeout(() => {
                 let idArray = lucky.nianhuiid.split("");
@@ -67,7 +71,7 @@ class RepeatDivComponent extends Component {
             }, 5000)
         });
     };
-    onClick = () => {
+    onGoClick = () => {
         socket.emit(`ask ${this.props.tag}`, (lucky) => {
             if (lucky === undefined) {
                 Toast.fail('未能成功获取幸运儿呀')
@@ -80,7 +84,8 @@ class RepeatDivComponent extends Component {
                     this.runDiv(lucky).then((data) => {
                         this.setState({
                             run: false,
-                            t: data
+                            t: data,
+                            l: lucky.name
                         })
                     })
                 }
@@ -107,15 +112,29 @@ class RepeatDivComponent extends Component {
             paddingBottom: '10px',
             textAlign: 'center'
         };
+        let name_style = {
+            fontSize: '6vw',
+            color: '#FFDF00',
+            WebkitTextStroke: '0.1vw #000000'
+        };
         let sub_div_list = this.state.s.map((s,i) => (
             <div key={i} style={span_style}>{s}</div>
         ));
         return (
             <div style={div_style}>
+                <WhiteSpace size="lg"/>
                 {sub_div_list}
+                <WhiteSpace size="lg"/>
                 <div style={btn_div_style}>
-                    <Button type="ghost" icon="check-circle-o" onClick={this.onClick} disabled={this.state.running}>抽奖</Button>
+                    <Button type="ghost" icon="check-circle-o" onClick={this.onGoClick} disabled={this.state.running}>抽奖</Button>
                 </div>
+                <WhiteSpace size="lg"/>
+                <WhiteSpace size="lg"/>
+                {
+                    this.state.show_l && (
+                        <span style={name_style}>{this.state.l}</span>
+                    )
+                }
             </div>
         )
     }
@@ -175,13 +194,13 @@ class AdminRewardComponent extends Component {
                                 initialPage={0}
                                 animated={false}
                             >
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                <div style={{ display: 'flex', alignItems: 'top', justifyContent: 'center', height: window.innerHeight*0.6, backgroundColor: '#fff' }}>
                                     <RepeatDivComponent tag="win lucky"/>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                <div style={{ display: 'flex', alignItems: 'top', justifyContent: 'center', height: window.innerHeight*0.6, backgroundColor: '#fff' }}>
                                     <RepeatDivComponent tag="vote lucky"/>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
+                                <div style={{ display: 'flex', alignItems: 'top', justifyContent: 'center', height: window.innerHeight*0.6, backgroundColor: '#fff' }}>
                                     <RepeatDivComponent tag="vote lucky"/>
                                 </div>
                             </Tabs>

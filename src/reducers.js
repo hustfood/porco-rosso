@@ -18,12 +18,6 @@ const admin_current_tab = handleAction(
     VOTE_TAB
 );
 
-const win_group = handleAction(
-    ACTIONS.SET_WIN_GROUP,
-    (state, action) => (action.payload.win_group),
-    ''
-);
-
 const vote_enable = handleAction(
     ACTIONS.SET_VOTE_ENABLE,
     (state, action) => (action.payload.vote_enable),
@@ -66,7 +60,6 @@ const barrages = handleActions(
 const reducer = combineReducers({
     current_tab,
     admin_current_tab,
-    win_group,
     vote_enable,
     unread_message_count,
     messages,

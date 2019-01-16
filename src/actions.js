@@ -15,9 +15,6 @@ export const ACTIONS = {
 export const set_current_tab = createAction(ACTIONS.SET_CURRENT_TAB, (current_tab) => ({current_tab}));
 export const set_admin_current_tab = createAction(ACTIONS.SET_ADMIN_CURRENT_TAB, (admin_current_tab) => ({admin_current_tab}));
 
-export const set_win_group = createAction(ACTIONS.SET_WIN_GROUP, (win_group) => ({win_group}));
-export const set_vote_enable = createAction(ACTIONS.SET_VOTE_ENABLE, (vote_enable) => ({vote_enable}));
-
 export const handle_unread_message_count = createActions(
     {
         [ACTIONS.ADD_UNREAD_MESSAGE_COUNT]: null,

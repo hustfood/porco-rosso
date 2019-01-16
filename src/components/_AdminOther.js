@@ -214,7 +214,11 @@ class SaveExVoteComponent extends Component {
             },
             {
                 text: '确定', onPress: () => {
-                    alert('todo')
+                    socket.emit('save vote', (data) => {
+                        if (data === 'ok') {
+                            Toast.success(`保存成功`, 1)
+                        }
+                    })
                 }
             }
         ])

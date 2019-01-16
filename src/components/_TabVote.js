@@ -6,14 +6,22 @@ const { EMPTY } = GROUPS;
 
 import socket from '../socketio';
 
+const rules = [
+    '① 每位同学有2张选票',
+    '② 每张选票需要投给不同的组',
+    '③ 截止投票前都可以随时改票',
+    '④ 获胜组中抽取1位得到升级卷',
+    '⑤ 投给获胜组中抽取2位得到升级卷',
+    '⑥ 凭升级卷可以换去AirPods'
+];
+
 class TabVoteComponent extends Component {
     state = {
         hasError: sessionStorage.getItem('current_qa') === null,
         qaCode: sessionStorage.getItem('current_qa') === null ? '' : sessionStorage.getItem('current_qa'),
-        vote1: [],
-        vote2: [],
-        ex_vote1: sessionStorage.getItem('ex_vote1') === null ? '' : sessionStorage.getItem('ex_vote1'),
-        ex_vote2: sessionStorage.getItem('ex_vote2') === null ? '' : sessionStorage.getItem('ex_vote2')
+        vote1: sessionStorage.getItem('ex_vote1') === null ? [] : [sessionStorage.getItem('ex_vote1')],
+        vote2: sessionStorage.getItem('ex_vote2') === null ? [] : [sessionStorage.getItem('ex_vote2')],
+        tips: false
     };
     onErrorClick = () => {
         if (this.state.hasError) {
@@ -77,7 +85,18 @@ class TabVoteComponent extends Component {
             })
         }
     };
+    onRuleClick = () => this.setState({
+        tips: !this.state.tips
+    });
     render() {
+        let rules_div = rules.map((r,i) => (
+            <div key={i} style={{
+                marginTop: '10px',
+                marginBottom: '10px'
+            }}>
+                {r}
+            </div>
+        ));
         return (
             <div>
                 <div
@@ -90,7 +109,21 @@ class TabVoteComponent extends Component {
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: '10% 40%',
                     }}
-                >票选最佳</div>
+                >
+                    票选最佳
+                    <img src={`http://foojamfung.top/img/question.svg`} style={{ height: '6vw', verticalAlign: 'middle', marginLeft: '5px', marginBottom: '5px' }} onClick={this.onRuleClick}/>
+                    {
+                        this.state.tips && (
+                            <div style={{
+                                fontSize: '17px',
+                                fontWeight: 'normal',
+                                color: 'red'
+                            }}>
+                                {rules_div}
+                            </div>
+                        )
+                    }
+                </div>
                 <div className="barrage-flex-container">
                     <Flex>
                         <Flex.Item>
@@ -106,7 +139,7 @@ class TabVoteComponent extends Component {
                                     <div style={{ backgroundImage: 'url(http://foojamfung.top/img/qa.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
                                 </InputItem>
                             </List>
-                            <List  renderHeader={() => this.state.ex_vote1 === '' ? '' : `当前已投[${this.state.ex_vote1}]`}>
+                            <List>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote1}
@@ -116,7 +149,7 @@ class TabVoteComponent extends Component {
                                     <List.Item arrow="horizontal">第一票</List.Item>
                                 </Picker>
                             </List>
-                            <List  renderHeader={() => this.state.ex_vote2 === '' ? '' : `当前已投[${this.state.ex_vote2}]`}>
+                            <List>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote2}
