@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Flex, WhiteSpace, Picker, InputItem, List, Toast, Button } from 'antd-mobile';
 
-import { VOTE_OPTIONS } from "../constants";
+import { VOTE_OPTIONS, GROUP2ID, GROUPS } from "../constants";
+const { EMPTY } = GROUPS;
+
+import socket from '../socketio';
 
 class TabVoteComponent extends Component {
     state = {
@@ -43,15 +46,35 @@ class TabVoteComponent extends Component {
         });
     };
     handleClick = () => {
-        console.log(this.state.qaCode);
+        let nianhuiid = this.state.qaCode;
+        let _vote1_name = this.state.vote1.length > 0 ? this.state.vote1[0] : EMPTY;
+        let _vote2_name = this.state.vote2.length > 0 ? this.state.vote2[0] : EMPTY;
+        let vote1 = GROUP2ID[_vote1_name];
+        let vote2 = GROUP2ID[_vote2_name];
 
-        let now_vote1 = this.state.vote1;
-        let now_vote2 = this.state.vote2;
-        if (now_vote1.length>0) {
-            sessionStorage.setItem('ex_vote1', this.state.vote1[0]);
-        }
-        if (now_vote2.length>0) {
-            sessionStorage.setItem('ex_vote2', this.state.vote2[0]);
+        if (vote1 === 0 || vote2 === 0) {
+            Toast.info(`亲两张票都要投哈`, 2)
+        } else if (vote1 === vote2) {
+            Toast.fail(`不能都投同一组哈`, 2)
+        } else {
+            socket.emit('send vote', {nianhuiid, vote1, vote2}, (data) => {
+                if (data === 0) {
+                    Toast.success(`投票成功`, 1);
+
+                    this.setState({
+                        ex_vote1: _vote1_name,
+                        ex_vote2: _vote2_name
+                    });
+                    sessionStorage.setItem('ex_vote1', _vote1_name);
+                    sessionStorage.setItem('ex_vote2', _vote2_name);
+                } else if (data === 1) {
+                    Toast.fail(`亲~现在不能投票`, 2)
+                } else if (data === 2) {
+                    Toast.fail(`亲~标识码非法`, 2)
+                } else {
+                    console.log(data);
+                }
+            })
         }
     };
     render() {
@@ -83,8 +106,7 @@ class TabVoteComponent extends Component {
                                     <div style={{ backgroundImage: 'url(http://foojamfung.top/img/qa.png)', backgroundSize: 'cover', height: '22px', width: '22px' }} />
                                 </InputItem>
                             </List>
-                            <WhiteSpace size="md"/>
-                            <List>
+                            <List  renderHeader={() => this.state.ex_vote1 === '' ? '' : `当前已投[${this.state.ex_vote1}]`}>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote1}
@@ -94,8 +116,7 @@ class TabVoteComponent extends Component {
                                     <List.Item arrow="horizontal">第一票</List.Item>
                                 </Picker>
                             </List>
-                            <WhiteSpace size="md"/>
-                            <List>
+                            <List  renderHeader={() => this.state.ex_vote2 === '' ? '' : `当前已投[${this.state.ex_vote2}]`}>
                                 <Picker
                                     data={VOTE_OPTIONS}
                                     value={this.state.vote2}

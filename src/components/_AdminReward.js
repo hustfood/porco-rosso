@@ -3,6 +3,8 @@ import { Flex, WhiteSpace, Tabs, InputItem, List, Toast, Button } from 'antd-mob
 
 import socket from '../socketio';
 
+import { ID2GROUP } from "../constants";
+
 const DIV_LEN = 9;
 
 class RepeatDivComponent extends Component {
@@ -12,73 +14,83 @@ class RepeatDivComponent extends Component {
         run: false,
         running: false,
     };
-    randSet = (index) => {
-        let s = Math.floor(Math.random()*10).toString();
-        let oldS = this.state.s;
-        oldS[index] = s;
+    randSetAll = () => {
+        let newT = new Array(DIV_LEN);
+        for (let i=0; i<DIV_LEN; i++) {
+            newT[i] = Math.floor(Math.random()*10).toString();
+        }
         this.setState({
-            s: oldS
+            s: newT
         })
     };
     componentDidMount() {
         setInterval(() => {
             if (this.state.run) {
                 for (let i=0; i<DIV_LEN; i++) {
-                    this.randSet(i)
+                    this.randSetAll()
                 }
             } else {
-                if (this.state.t.length === DIV_LEN) {
-                    for (let i=0; i<DIV_LEN; i++) {
-                        if (this.state.s[i] !== this.state.t[i]) {
-                            this.randSet(i)
-                        }
-                    }
-                } else {
-                    if (this.state.t.length !== 0) {
-                        for (let i = 0; i < DIV_LEN; i++) {
-                            this.randSet(i)
-                        }
-                    }
-                }
-
                 if (this.state.s.toString() === this.state.t.toString()) {
                     this.setState({
                         t: [],
                         running: false
                     })
+                } else {
+                    if (this.state.t.length === DIV_LEN) {
+                        let t = this.state.t;
+                        this.setState({
+                            s: t
+                        })
+                    } else {
+                        if (this.state.t.length !== 0) {
+                            for (let i = 0; i < DIV_LEN; i++) {
+                                this.randSetAll()
+                            }
+                        }
+                    }
                 }
             }
         }, 100)
     }
-    runDiv = () => {
+    runDiv = (lucky) => {
         return new Promise((resolve, reject) => {
             this.setState({
                 run: true,
                 running: true
             });
             setTimeout(() => {
-                let newT = new Array(DIV_LEN);
-                for (let i=0; i<DIV_LEN; i++) {
-                    newT[i] = Math.floor(Math.random()*10).toString();
+                let idArray = lucky.nianhuiid.split("");
+                if (idArray.length === 8) {
+                    idArray.unshift("")
                 }
-                resolve(newT)
+                resolve(idArray)
             }, 5000)
         });
     };
     onClick = () => {
-        if (!this.state.running) {
-            this.runDiv().then((data) => {
-                this.setState({
-                    run: false,
-                    t: data
-                })
-            })
-        }
+        socket.emit(`ask ${this.props.tag}`, (lucky) => {
+            if (lucky === undefined) {
+                Toast.fail('未能成功获取幸运儿呀')
+            } else if (lucky === "error") {
+                Toast.fail('未能成功获取幸运儿呀')
+            } else if (Object.keys(lucky).length === 0) {
+                Toast.fail('尚未决出胜利小组哦')
+            } else {
+                if (!this.state.running) {
+                    this.runDiv(lucky).then((data) => {
+                        this.setState({
+                            run: false,
+                            t: data
+                        })
+                    })
+                }
+            }
+        });
     };
     render() {
         let div_style = {
             textAlign: 'center',
-            width: '60%',
+            width: '80%',
             margin: '0 auto',
             padding: '0 30px 30px 30px',
             display: 'block'
@@ -92,7 +104,7 @@ class RepeatDivComponent extends Component {
             fontSize: '7vw',
             display: 'inline-block',
             width: '11%',
-            padding: '20px',
+            paddingBottom: '10px',
             textAlign: 'center'
         };
         let sub_div_list = this.state.s.map((s,i) => (
@@ -120,27 +132,35 @@ class AdminRewardComponent extends Component {
         win_group: '?'
     };
     componentDidMount() {
-        socket.on('sync win group', param => this.setState({win_group: param}))
+        socket.emit('ask win group', (data) => {
+            if ([1,2,3,4,5].includes(data)) {
+                this.setState({win_group: ID2GROUP[data]})
+            }
+        });
+        socket.on('sync win group', param => this.setState({win_group: ID2GROUP[param]}))
     }
     render() {
         return (
             <div className="flex-container">
                 <div style={{
-                    width: '70%',
+                    width: '60%',
                     margin: '0 auto'
                 }}>
                     <Flex>
                         <Flex.Item>
                             <div style={{
                                 textAlign: 'center',
-                                marginBottom: '30px'
+                                marginBottom: '20px'
                             }}>
                                 <img style={{ verticalAlign: 'middle' }} src='http://foojamfung.top/img/crown.png'/>
                                 <span style={{
                                     display: 'inline-block',
                                     verticalAlign: 'middle',
                                     fontSize: '5vw',
-                                    margin: '0 10px 0 10px'
+                                    fontWeight: 'bold',
+                                    margin: '0 10px 0 10px',
+                                    color: '#FFDF00',
+                                    WebkitTextStroke: '0.1vw #000000'
                                 }}>
                                     {this.state.win_group}
                                 </span>
@@ -156,13 +176,13 @@ class AdminRewardComponent extends Component {
                                 animated={false}
                             >
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
-                                    <RepeatDivComponent/>
+                                    <RepeatDivComponent tag="win lucky"/>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
-                                    <RepeatDivComponent/>
+                                    <RepeatDivComponent tag="vote lucky"/>
                                 </div>
                                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 'auto', backgroundColor: '#fff' }}>
-                                    <RepeatDivComponent/>
+                                    <RepeatDivComponent tag="vote lucky"/>
                                 </div>
                             </Tabs>
                         </Flex.Item>

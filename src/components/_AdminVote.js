@@ -7,32 +7,13 @@ import {
   Tooltip,
 } from "bizcharts";
 
-const test_data = [
-    {
-        group: 'EROS',
-        votes: 38
-    },
-    {
-        group: 'GAIA',
-        votes: 52
-    },
-    {
-        group: 'TITAN',
-        votes: 61
-    },
-    {
-        group: 'MOCO',
-        votes: 145
-    },
-    {
-        group: 'FM&MAKI',
-        votes: 48
-    },
-];
+import { ID2GROUP } from "../constants";
+
+import socket from '../socketio';
 
 const cols = {
     votes: {
-        tickInterval: 20
+        min: 0
     }
 };
 
@@ -44,11 +25,34 @@ const imageMap = {
     'FM&MAKI': "http://foojamfung.top/img/pig_f.png"
 };
 
+const colorMap = {
+    'EROS': "#FF3300",
+    'GAIA': "#FFC000",
+    'TITAN': "#99CCFF",
+    'MOCO': "#99CC00",
+    'FM&MAKI': "#9966CC"
+};
+
 class AdminVoteComponent extends Component {
     state = {
+        vote_stat: []
     };
-    onClick = () => {
-
+    onRefreshClick = () => {
+        socket.emit('get vote stat', (data) => {
+            delete data['0'];
+            let vote_stat = [];
+            for (let key in data) {
+                if (data.hasOwnProperty(key)) {
+                    vote_stat.push({
+                        group: ID2GROUP[parseInt(key)],
+                        votes: data[key]
+                    })
+                }
+            }
+            this.setState({
+                vote_stat
+            })
+        })
     };
     render() {
         let btn_div_style = {
@@ -64,7 +68,8 @@ class AdminVoteComponent extends Component {
                             <div style={{ width: '60%', margin: '0 auto' }}>
                                 <Chart
                                     height={window.innerHeight*0.8}
-                                    data={test_data}
+                                    data={this.state.vote_stat}
+                                    placeholder
                                     scale={cols}
                                     forceFit
                                 >
@@ -78,7 +83,7 @@ class AdminVoteComponent extends Component {
                                     <Geom
                                         type="interval"
                                         position="group*votes"
-                                        color={['group', ['#FF3300', '#FFC000', '#99CCFF', '#99CC00', '#9966CC']]}
+                                        color={['group', (group)=>(colorMap[group])]}
                                     />
                                     <Geom
                                         type="point"
@@ -98,7 +103,7 @@ class AdminVoteComponent extends Component {
                     <Flex>
                         <Flex.Item>
                             <div style={btn_div_style}>
-                                <Button type="ghost" icon={<img src="http://foojamfung.top/img/refresh.svg" alt="" />} onClick={this.onClick}>刷新</Button>
+                                <Button type="ghost" icon={<img src="http://foojamfung.top/img/refresh.svg" alt="" />} onClick={this.onRefreshClick}>刷新</Button>
                             </div>
                         </Flex.Item>
                     </Flex>

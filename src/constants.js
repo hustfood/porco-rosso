@@ -13,12 +13,13 @@ export const ADMIN_TABS = {
     OTHER_TAB: 'OTHER_TAB'
 };
 
-const GROUPS = {
+export const GROUPS = {
     EROS: 'EROS',
     GAIA: 'GAIA',
     TITAN: 'TITAN',
     MOCO: 'MOCO',
-    FM: 'FM&MAKI'
+    FM: 'FM&MAKI',
+    EMPTY: 'EMPTY'
 };
 
 export const GROUP2ID = {
@@ -26,10 +27,12 @@ export const GROUP2ID = {
     [GROUPS.GAIA]: 1,
     [GROUPS.TITAN]: 2,
     [GROUPS.MOCO]: 3,
-    [GROUPS.FM]: 5
+    [GROUPS.FM]: 5,
+    [GROUPS.EMPTY]: 0
 };
 
 export const ID2GROUP = {
+    0: GROUPS.EMPTY,
     1: GROUPS.GAIA,
     2: GROUPS.TITAN,
     3: GROUPS.MOCO,

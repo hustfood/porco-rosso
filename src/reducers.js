@@ -24,6 +24,12 @@ const win_group = handleAction(
     ''
 );
 
+const vote_enable = handleAction(
+    ACTIONS.SET_VOTE_ENABLE,
+    (state, action) => (action.payload.vote_enable),
+    true
+);
+
 const unread_message_count = handleActions(
     {
         [ACTIONS.ADD_UNREAD_MESSAGE_COUNT]: (state, action) => (state<10 ? state+1 : '...'),
@@ -61,6 +67,7 @@ const reducer = combineReducers({
     current_tab,
     admin_current_tab,
     win_group,
+    vote_enable,
     unread_message_count,
     messages,
     barrages
