@@ -4,11 +4,4 @@ socket.on('connect', () => {
     console.log('connected');
 });
 
-export default socket;
-
-// export function getSocket() {
-//     return import(/* webpackChunkName: "socketio" */ 'socket.io-client').then(({ default: io }) => {
-//         let socket = io('http://' + document.domain + ':' + location.port + '/barrage');
-//         return socket;
-//     })
-// }
+export default socket

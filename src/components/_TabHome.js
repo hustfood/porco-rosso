@@ -7,31 +7,31 @@ const groups = [
     {
         color: '#FF3300',
         name: 'EROS',
-        video: 'https://pan.baidu.com/s/1Wwc7m-nD10CQFY843nLBYQ',
+        video: 'https://v.youku.com/v_show/id_XNDAxNjgwOTQ4NA==.html?spm=a2h3j.8428770.3416059.1',
         link: 'video_1.svg'
     },
     {
         color: '#FFC000',
         name: 'GAIA',
-        video: 'https://pan.baidu.com/s/1ndkAhocCaokCRz_lISNM-A',
+        video: 'https://v.youku.com/v_show/id_XNDAxNjgxMDM4NA==.html?spm=a2h3j.8428770.3416059.1',
         link: 'video_2.svg'
     },
     {
         color: '#99CCFF',
         name: 'TITAN',
-        video: 'https://pan.baidu.com/s/16HBHeMB7L-j4B841dQvMLw',
+        video: 'https://v.youku.com/v_show/id_XNDAxNjk1MDk0MA==.html?spm=a2h3j.8428770.3416059.1',
         link: 'video_3.svg'
     },
     {
         color: '#99CC00',
         name: 'MOCO',
-        video: 'https://pan.baidu.com/s/1miDTmPDbFQkbDo8ToyXbeA',
+        video: 'https://v.youku.com/v_show/id_XNDAxNjgxMDgwMA==.html?spm=a2h3j.8428770.3416059.1',
         link: 'video_4.svg'
     },
     {
         color: '#9966CC',
         name: 'FM&MAKI',
-        video: 'https://pan.baidu.com/s/1KS0ydhxvj6X7NOQSwZ7pGg',
+        video: 'https://v.youku.com/v_show/id_XNDAxNjgwNjEyMA==.html?spm=a2h3j.8428770.3416059.1',
         link: 'video_5.svg'
     },
 ];

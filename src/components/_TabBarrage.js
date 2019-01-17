@@ -4,7 +4,6 @@ import { createForm } from 'rc-form';
 import { ChatFeed, Message } from 'react-chat-ui';
 
 import socket from '../socketio';
-// import { getSocket } from "../socketio";
 
 const TabBarrageComponent = ({ form, messages }) => {
     const { getFieldProps } = form;
@@ -14,13 +13,6 @@ const TabBarrageComponent = ({ form, messages }) => {
                 Toast.fail('亲不能发送空内容呀', 1);
             }
             else {
-                // getSocket().then(socket => {
-                //     socket.emit('send barrage', value, (data) => {
-                //         if (data === 'ok') {
-                //             form.setFieldsValue({say:''});
-                //         }
-                //     })
-                // });
                 socket.emit('send barrage', value, (data) => {
                     if (data === 'ok') {
                         form.setFieldsValue({say:''});

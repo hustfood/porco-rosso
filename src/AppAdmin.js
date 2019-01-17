@@ -7,16 +7,12 @@ import RunBarrageContainer from './containers/RunBarrage';
 import AdminTabsContainer from './containers/AdminTabs';
 
 import socket from './socketio';
-// import { getSocket } from "./socketio";
 
 import './App.css';
 
 import {
     handle_barrage
 } from "./actions";
-
-import { TABS } from "./constants";
-const { BARRAGE_TAB } = TABS;
 
 class WidthItem extends Component {
     render() {
@@ -63,22 +59,6 @@ class App extends Component {
             let pose_height = screen.height * 0.05 + ret_channel * ret_height;
             this.props.asyncBarrage(param, ret_width, pose_height, randomColor(), now_timestamp);
         });
-        // getSocket().then(socket => {
-        //     socket.on('sync barrage', param => {
-        //         const now_timestamp = Date.now();
-        //         const {ret_width, ret_height} = getItemSize(param);
-        //         let all_channel = Math.floor(screen.height / ret_height * 0.8);
-        //         let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
-        //         let pose_height = screen.height * 0.05 + ret_channel * ret_height;
-        //         this.props.asyncBarrage(param, ret_width, pose_height, randomColor(), now_timestamp);
-        //
-        //         this.props.addMessage(param);
-        //
-        //         if (this.props.current_tab !== BARRAGE_TAB) {
-        //             this.props.setUnreadMessageCount();
-        //         }
-        //     });
-        // })
     }
     render() {
         return (

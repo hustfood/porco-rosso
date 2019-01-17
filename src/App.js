@@ -7,7 +7,6 @@ import TabbarContainer from './containers/Tabbar';
 import RunBarrageContainer from './containers/RunBarrage';
 
 import socket from './socketio';
-// import { getSocket } from "./socketio";
 
 import './App.css';
 
@@ -71,22 +70,6 @@ class App extends Component {
                 this.props.setUnreadMessageCount();
             }
         });
-        // getSocket().then(socket => {
-        //     socket.on('sync barrage', param => {
-        //         const now_timestamp = Date.now();
-        //         const {ret_width, ret_height} = getItemSize(param);
-        //         let all_channel = Math.floor(screen.height / ret_height * 0.8);
-        //         let ret_channel = Math.floor(Math.random() * Math.floor(all_channel));
-        //         let pose_height = screen.height * 0.05 + ret_channel * ret_height;
-        //         this.props.asyncBarrage(param, ret_width, pose_height, randomColor(), now_timestamp);
-        //
-        //         this.props.addMessage(param);
-        //
-        //         if (this.props.current_tab !== BARRAGE_TAB) {
-        //             this.props.setUnreadMessageCount();
-        //         }
-        //     });
-        // })
     }
     render() {
         return (

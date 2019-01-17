@@ -12,7 +12,7 @@ const rules = [
     '③ 截止投票前都可以随时改票',
     '④ 获胜组中抽取1位得到升级卷',
     '⑤ 投给获胜组中抽取2位得到升级卷',
-    '⑥ 凭升级卷可以换去AirPods'
+    '⑥ 凭升级卷可以换取C位奖AirPods'
 ];
 
 class TabVoteComponent extends Component {
